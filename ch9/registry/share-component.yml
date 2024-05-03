@@ -1,0 +1,25 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+name: walmart_store_sales_train_job
+display_name: walmart_store_sales_train
+
+code: ../../ch5/src
+command: >-
+  python main.py --num_leaves ${{inputs.num_leaves}} --learning_rate ${{inputs.learning_rate}} --registered_model_name ${{inputs.registered_model_name}} --train_data_path ${{inputs.train_data_path}} --valid_data_path ${{inputs.valid_data_path}}
+
+inputs:
+  num_leaves:
+    type: number
+    default: 31
+  learning_rate:
+    type: number
+    default: 0.05
+  registered_model_name:
+    type: string
+  train_data_path:
+    type: uri_file
+  valid_data_path:
+    type: uri_file
+
+environment: azureml://registries/aml-book-ch9-registry/environments/walmart-store-sales-env-share-registry/versions/1

@@ -1,0 +1,22 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+display_name: walmart-store-sales-train-pipeline
+experiment_name: walmart-store-sales-train-pipeline
+
+settings:
+  default_compute: azureml:serverless
+
+jobs:
+  train_job:
+    type: command
+    component: azureml://registries/aml-book-ch9-registry/components/walmart_store_sales_train_job/versions/1
+    inputs:
+      num_leaves: 31
+      learning_rate: 0.05
+      registered_model_name: "Walmart_store_sales_model"
+      train_data_path:
+        type: uri_file
+        path: azureml:Walmart_store_sales_train@latest
+      valid_data_path:
+        type: uri_file
+        path: azureml:Walmart_store_sales_valid@latest

@@ -1,0 +1,9 @@
+name: aml-book-ch9-registry
+tags:
+  description: 組織内での資産共有用のレジストリ
+location: japaneast
+replication_locations:
+  - location: japaneast
+    storage_config:
+      storage_account_hns: True
+      storage_account_type: Standard_LRS
