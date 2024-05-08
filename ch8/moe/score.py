@@ -12,7 +12,7 @@ def init():
         os.environ["AZUREML_MODEL_DIR"],
         "Walmart_store_sales_model",
     )
-    model = mlflow.lightgbm.load(model_path)
+    model = mlflow.lightgbm.load_model(model_path)
     logging.info("Init complete")
 
 
