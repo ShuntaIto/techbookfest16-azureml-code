@@ -32,11 +32,11 @@ def process_data(df):
     mlflow.log_metric("Test samples", len(df_test))
 
     # Date列からMonth列とDay列を追加し、Date列を削除
-    df_train["Month"] = pd.to_datetime(df_train["Date"]).dt.month
-    df_train["Day"] = pd.to_datetime(df_train["Date"]).dt.day
+    df_train["Month"] = pd.to_datetime(df_train["Date"], format="%d-%m-%Y").dt.month
+    df_train["Day"] = pd.to_datetime(df_train["Date"], format="%d-%m-%Y").dt.day
     df_train = df_train.drop(columns="Date")
-    df_test["Month"] = pd.to_datetime(df_test["Date"]).dt.month
-    df_test["Day"] = pd.to_datetime(df_test["Date"]).dt.day
+    df_test["Month"] = pd.to_datetime(df_test["Date"], format="%d-%m-%Y").dt.month
+    df_test["Day"] = pd.to_datetime(df_test["Date"], format="%d-%m-%Y").dt.day
     df_test = df_test.drop(columns="Date")
 
     # ターゲット変数となる列名を指定
