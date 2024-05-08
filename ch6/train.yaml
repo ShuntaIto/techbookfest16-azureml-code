@@ -1,0 +1,22 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: train_lightgbm_regression_model
+display_name: Train LightGBM Regression Model
+version: 1
+type: command
+
+inputs:
+  training_data_path:
+    type: uri_folder
+
+outputs:
+  model_output_path:
+    type: mlflow_model
+
+code: ./train
+ 
+environment: azureml:walmart-store-sales-env@latest
+
+command: >-
+  python train.py
+  --training_data_path ${{inputs.training_data_path}}
+  --model_output_path ${{outputs.model_output_path}}

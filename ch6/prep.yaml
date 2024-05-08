@@ -1,0 +1,31 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: prep_walmart_data
+display_name: Prepare Walmart Data
+version: 1
+type: command
+
+inputs:
+  walmart_data:
+    type: uri_file
+  test_split_ratio:
+    type: number
+    min: 0
+    max: 1
+    default: 0.2
+
+outputs:
+  training_data_path:
+    type: uri_folder
+  testing_data_path:
+    type: uri_folder
+
+code: ./prep
+
+environment: azureml:walmart-store-sales-env@latest
+
+command: >-
+  python prep.py
+  --input_data_path ${{inputs.walmart_data}}
+  --test_split_ratio ${{inputs.test_split_ratio}}
+  --training_data_path ${{outputs.training_data_path}}
+  --testing_data_path ${{outputs.testing_data_path}}

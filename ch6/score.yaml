@@ -1,0 +1,28 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: score_by_ightgbm_regression_model
+display_name: Score by LightGBM Regression Model
+version: 1
+type: command
+
+inputs:
+  model_input_path:
+    type: mlflow_model
+  testing_data_path:
+    type: uri_folder
+
+outputs:
+  predicted_data_path:
+    type: uri_folder
+  label_data_path:
+    type: uri_folder
+
+code: ./score
+
+environment: azureml:walmart-store-sales-env@latest
+
+command: >-
+  python score.py
+  --testing_data_path ${{inputs.testing_data_path}}
+  --model_input_path ${{inputs.model_input_path}}
+  --predicted_data_path ${{outputs.predicted_data_path}}
+  --label_data_path ${{outputs.label_data_path}}

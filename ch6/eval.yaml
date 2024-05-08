@@ -1,0 +1,25 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: evaluate_lightgbm_regression_model
+display_name: Evaluate LightGBM Regression Model
+version: 1
+type: command
+
+inputs:
+  predicted_data_path:
+    type: uri_folder
+  label_data_path:
+    type: uri_folder
+
+outputs:
+  model_performance_report_path:
+    type: uri_folder
+
+code: ./eval
+
+environment: azureml:walmart-store-sales-env@latest
+
+command: >-
+  python eval.py
+  --predicted_data_path ${{inputs.predicted_data_path}}
+  --label_data_path ${{inputs.label_data_path}}
+  --model_performance_report_path ${{outputs.model_performance_report_path}}

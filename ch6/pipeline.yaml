@@ -1,0 +1,64 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+display_name: Training Pipeline for Walmart Data
+description: train_pipeline_for_walmart_data
+
+inputs:
+  walmart_data:
+    type: uri_file
+    path: azureml:Walmart@latest
+  test_split_ratio: 0.2
+
+outputs:
+  pipeline_job_trained_model_path:
+    type: mlflow_model
+    mode: upload
+  model_performance_report_path:
+    mode: upload
+
+settings:
+  default_datastore: azureml:workspaceblobstore
+  default_compute: azureml:cpu-clusters
+  continue_on_step_failure: false
+
+
+jobs:
+  prep_job:
+    type: command
+    component: ./prep.yaml
+    inputs:
+      walmart_data: ${{parent.inputs.walmart_data}}
+      test_split_ratio: ${{parent.inputs.test_split_ratio}}
+    outputs:
+      training_data_path:
+      testing_data_path:
+
+
+  train_job:
+    type: command
+    component: ./train.yaml
+    inputs:
+      training_data_path: ${{parent.jobs.prep_job.outputs.training_data_path}}
+    outputs:
+      model_output_path: ${{parent.outputs.pipeline_job_trained_model_path}}
+
+
+  score_job:
+    type: command
+    component: ./score.yaml
+    inputs:
+      testing_data_path: ${{parent.jobs.prep_job.outputs.testing_data_path}}
+      model_input_path: ${{parent.jobs.train_job.outputs.model_output_path}}
+    outputs:
+      predicted_data_path:
+      label_data_path:
+
+
+  eval_job:
+    type: command
+    component: ./eval.yaml
+    inputs:
+      predicted_data_path: ${{parent.jobs.score_job.outputs.predicted_data_path}}
+      label_data_path: ${{parent.jobs.score_job.outputs.label_data_path}}
+    outputs:
+      model_performance_report_path: ${{parent.outputs.model_performance_report_path}}
