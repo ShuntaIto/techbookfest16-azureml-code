@@ -1,0 +1,8 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineComponentBatchDeployment.schema.json
+name: pipeline-deploy
+endpoint_name: walmart-pipeline-batch-endpoint
+type: pipeline
+job_definition: azureml:<ジョブ名(実行ID)>
+settings:
+    continue_on_step_failure: false
+    default_compute: cpu-clusters
