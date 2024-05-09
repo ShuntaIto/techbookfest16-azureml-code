@@ -1,0 +1,5 @@
+$schema: https://azuremlschemas.azureedge.net/latest/data.schema.json
+name: Walmart # データアセットの名前
+description: Walmart Store Sales Data
+type: uri_file # データアセットの種類
+path: ../../../data/Walmart.csv # データの相対パス
