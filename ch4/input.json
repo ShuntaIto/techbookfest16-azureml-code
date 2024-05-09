@@ -1,0 +1,24 @@
+{
+    "input_data": {
+        "columns": [
+            "Store",
+            "Date",
+            "Holiday_Flag",
+            "Temperature",
+            "Fuel_Price",
+            "CPI",
+            "Unemployment"
+        ],
+        "data": [
+            [
+                1,
+                "2010-02-05",
+                "0",
+                42.31,
+                2.572,
+                211.0963582,
+                8.106
+            ]
+        ]
+    }
+}
