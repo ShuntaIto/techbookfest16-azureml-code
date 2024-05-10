@@ -35,7 +35,10 @@ def save_model(model, output_dir):
 
 def main(args):
     # 自動ロギングの有効化
-    mlflow.autolog(log_models=False)
+    run = mlflow.start_run()
+
+    # 自動ロギング有効化
+    mlflow.lightgbm.autolog()
 
     # 引数の確認
     lines = [
@@ -70,12 +73,17 @@ def main(args):
 
     # モデル学習
     model = lgb.train(
-        params=params, train_set=train_data, num_boost_round=100, valid_sets=valid_data
+        params=params, 
+        train_set=train_data, 
+        num_boost_round=100, 
+        valid_sets=valid_data
     )
 
     # モデル保存
     save_model(model, args.model_output_path)
 
+    # 自動ロギング有効化
+    mlflow.end_run()
 
 if __name__ == "__main__":
     # 引数の処理
