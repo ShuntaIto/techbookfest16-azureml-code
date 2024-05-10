@@ -12,7 +12,7 @@ def init():
         os.environ["AZUREML_MODEL_DIR"],
         "Walmart_store_sales_model",
     )
-    model = mlflow.lightgbm.load_model(model_path)
+    model = mlflow.lightgbm.load_model(model_path) # モデルのロード
     logging.info("Init complete")
 
 
@@ -21,6 +21,6 @@ def run(raw_data):
     logging.info("model: request received")
     data = json.loads(raw_data)["data"]
     data = np.array(data)
-    result = model.predict(data)
+    result = model.predict(data) # 推論
     logging.info("Request processed")
     return result.tolist()

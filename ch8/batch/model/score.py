@@ -1,7 +1,6 @@
 import logging
 import os
 import mlflow
-import numpy as np
 import pandas as pd
 
 
@@ -17,11 +16,10 @@ def init():
 
 def run(mini_batch):
     print(f"run method start: {__file__}, run({mini_batch})")
-    results = pd.DataFrame()
+    results = pd.DataFrame() # 結果を格納する DataFrame
     for input in mini_batch:
+        # データの読み込み
         df_batch = pd.read_csv(input)
-        pd.set_option("display.max_rows", None)
-        print(df_batch.head())
 
         # Date列からMonth列とDay列を追加し、Date列を削除
         df_batch["Month"] = pd.to_datetime(df_batch["Date"], format="%d-%m-%Y").dt.month
@@ -35,9 +33,7 @@ def run(mini_batch):
         X_batch = df_batch.drop(columns=col_target)
         y_batch = df_batch[col_target].to_numpy().ravel()
 
-        print(X_batch.dtypes)
-
-        # 予測
+        # 予測 
         pred = model.predict(X_batch)
 
         # 元データへ予測値とファイルパスを追加
@@ -45,5 +41,4 @@ def run(mini_batch):
         df_batch["pred"] = pred
 
         results = pd.concat([results, df_batch], ignore_index=True)
-
     return results

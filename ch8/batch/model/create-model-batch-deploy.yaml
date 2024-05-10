@@ -3,17 +3,17 @@ name: batch-deployment
 description: custom batch deployment
 
 model: azureml:Walmart_store_sales_model@latest
-code_configuration:
+code_configuration: # コードのパス
   code: .
   scoring_script: score.py
-environment: azureml:walmart-store-sales-env-inference@latest
-compute: azureml:cpu-clusters
+environment: azureml:walmart-store-sales-env-inference@latest # 環境
+compute: azureml:cpu-clusters # コンピューティングクラスタ
 resources:
   instance_count: 1
 max_concurrency_per_instance: 2
 mini_batch_size: 10
 output_action: append_row
-output_file_name: predictions.csv
+output_file_name: predictions.csv # 予測値ファイル
 retry_settings:
   max_retries: 3
   timeout: 30
