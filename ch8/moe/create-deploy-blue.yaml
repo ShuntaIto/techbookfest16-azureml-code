@@ -1,0 +1,9 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: blue
+model: azureml:Walmart_store_sales_model@latest # 登録済みモデル
+code_configuration: # 推論スクリプトのパス
+  code: ./
+  scoring_script: score.py
+environment: azureml:walmart-store-sales-env-inference@latest # 環境
+instance_type: Standard_DS4_v2  # 推論環境で使用するVMのスペック
+instance_count: 1 # 起動台数
